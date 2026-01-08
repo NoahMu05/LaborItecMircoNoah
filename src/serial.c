@@ -1,3 +1,4 @@
+//Serielle Kommunikation
 #include "serial.h"
 #include <termios.h>
 #include <fcntl.h>

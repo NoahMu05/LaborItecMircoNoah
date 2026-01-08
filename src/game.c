@@ -1,8 +1,7 @@
 #include "game.h"
 #include <stdio.h>
 
-/* Minimaler Stub: ersetzt später die vollständige Spiel‑Logik.
-   Erlaubt dem Projekt zu linken und liefert eine einfache Meldung. */
+// ersetzt später die vollständige Spiel‑Logik.
 int play_game_from_profile(const char *csvfile){
     if(!csvfile){
         fprintf(stderr, "play_game_from_profile: kein csvfile angegeben\n");

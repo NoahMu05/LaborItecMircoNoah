@@ -1,3 +1,5 @@
+//Datenbank: erstellt Tabelle und fügt Messwerte ein;
+//exportiert Daten als CSV und importiert CSVs für Lookup/ Interpolation
 #include "db.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -76,15 +78,14 @@ int db_import_csv(sqlite3 *db, const char *csvfile){
     FILE *f = fopen(csvfile, "r");
     if(!f) return -1;
     char line[512];
-    // skip header
+    
     if(!fgets(line, sizeof(line), f)){ fclose(f); return -1; }
     while(fgets(line, sizeof(line), f)){
         int id, real_cm, sensor_raw;
         char ts[64];
-        // Accept lines with at least real_cm and sensor_raw or sensor_raw only
-        // Format expected: id,real_cm,sensor_raw,diff,ts
+   
         char *p = line;
-        // parse by tokenizing
+        
         char *tok;
         tok = strtok(p, ","); // id
         if(!tok) continue;
@@ -98,7 +99,7 @@ int db_import_csv(sqlite3 *db, const char *csvfile){
         tok = strtok(NULL, ",\n"); // ts
         if(tok) strncpy(ts, tok, sizeof(ts)-1);
         else ts[0]=0;
-        // insert
+        
         db_insert_measure(db, real_cm, sensor_raw, ts[0]?ts:"now");
     }
     fclose(f);

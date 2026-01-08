@@ -1,3 +1,4 @@
+//Hilfsfunktion: ASCII-Histogramm für AUTO-Modus; Zeitstempel generieren; Menü anzeigen
 #include "util.h"
 #include <stdio.h>
 #include <time.h>

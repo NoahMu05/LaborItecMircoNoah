@@ -1,3 +1,4 @@
+//Filter: Mittelwertfilter (moving average) über 3 Werte
 #include "filter.h"
 
 void moving_average_3(const int *in, int n, double *out){
