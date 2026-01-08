@@ -63,7 +63,7 @@ CMAKE_BINARY_DIR = /home/munck/LaborItecMircoNoah/build
 # Directory level rules for the build root directory
 
 # The main recursive "all" target.
-all:
+all: CMakeFiles/MyCProject-ex.dir/all
 .PHONY : all
 
 # The main recursive "preinstall" target.
@@ -71,8 +71,34 @@ preinstall:
 .PHONY : preinstall
 
 # The main recursive "clean" target.
-clean:
+clean: CMakeFiles/MyCProject-ex.dir/clean
 .PHONY : clean
+
+#=============================================================================
+# Target rules for target CMakeFiles/MyCProject-ex.dir
+
+# All Build rule for target.
+CMakeFiles/MyCProject-ex.dir/all:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/depend
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/munck/LaborItecMircoNoah/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Built target MyCProject-ex"
+.PHONY : CMakeFiles/MyCProject-ex.dir/all
+
+# Build rule for subdir invocation for target.
+CMakeFiles/MyCProject-ex.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/munck/LaborItecMircoNoah/build/CMakeFiles 8
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/MyCProject-ex.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/munck/LaborItecMircoNoah/build/CMakeFiles 0
+.PHONY : CMakeFiles/MyCProject-ex.dir/rule
+
+# Convenience name for target.
+MyCProject-ex: CMakeFiles/MyCProject-ex.dir/rule
+.PHONY : MyCProject-ex
+
+# clean rule for target.
+CMakeFiles/MyCProject-ex.dir/clean:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/clean
+.PHONY : CMakeFiles/MyCProject-ex.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

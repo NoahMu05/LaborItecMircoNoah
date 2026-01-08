@@ -1,2 +1,3 @@
+/home/munck/LaborItecMircoNoah/build/CMakeFiles/MyCProject-ex.dir
 /home/munck/LaborItecMircoNoah/build/CMakeFiles/edit_cache.dir
 /home/munck/LaborItecMircoNoah/build/CMakeFiles/rebuild_cache.dir

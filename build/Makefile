@@ -116,6 +116,187 @@ depend:
 	$(CMAKE_COMMAND) -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR) --check-build-system CMakeFiles/Makefile.cmake 1
 .PHONY : depend
 
+#=============================================================================
+# Target rules for targets named MyCProject-ex
+
+# Build rule for target.
+MyCProject-ex: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 MyCProject-ex
+.PHONY : MyCProject-ex
+
+# fast build rule for target.
+MyCProject-ex/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/build
+.PHONY : MyCProject-ex/fast
+
+src/db.o: src/db.c.o
+.PHONY : src/db.o
+
+# target to build an object file
+src/db.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/src/db.c.o
+.PHONY : src/db.c.o
+
+src/db.i: src/db.c.i
+.PHONY : src/db.i
+
+# target to preprocess a source file
+src/db.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/src/db.c.i
+.PHONY : src/db.c.i
+
+src/db.s: src/db.c.s
+.PHONY : src/db.s
+
+# target to generate assembly for a file
+src/db.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/src/db.c.s
+.PHONY : src/db.c.s
+
+src/filter.o: src/filter.c.o
+.PHONY : src/filter.o
+
+# target to build an object file
+src/filter.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/src/filter.c.o
+.PHONY : src/filter.c.o
+
+src/filter.i: src/filter.c.i
+.PHONY : src/filter.i
+
+# target to preprocess a source file
+src/filter.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/src/filter.c.i
+.PHONY : src/filter.c.i
+
+src/filter.s: src/filter.c.s
+.PHONY : src/filter.s
+
+# target to generate assembly for a file
+src/filter.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/src/filter.c.s
+.PHONY : src/filter.c.s
+
+src/game.o: src/game.c.o
+.PHONY : src/game.o
+
+# target to build an object file
+src/game.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/src/game.c.o
+.PHONY : src/game.c.o
+
+src/game.i: src/game.c.i
+.PHONY : src/game.i
+
+# target to preprocess a source file
+src/game.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/src/game.c.i
+.PHONY : src/game.c.i
+
+src/game.s: src/game.c.s
+.PHONY : src/game.s
+
+# target to generate assembly for a file
+src/game.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/src/game.c.s
+.PHONY : src/game.c.s
+
+src/interp.o: src/interp.c.o
+.PHONY : src/interp.o
+
+# target to build an object file
+src/interp.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/src/interp.c.o
+.PHONY : src/interp.c.o
+
+src/interp.i: src/interp.c.i
+.PHONY : src/interp.i
+
+# target to preprocess a source file
+src/interp.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/src/interp.c.i
+.PHONY : src/interp.c.i
+
+src/interp.s: src/interp.c.s
+.PHONY : src/interp.s
+
+# target to generate assembly for a file
+src/interp.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/src/interp.c.s
+.PHONY : src/interp.c.s
+
+src/main.o: src/main.c.o
+.PHONY : src/main.o
+
+# target to build an object file
+src/main.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/src/main.c.o
+.PHONY : src/main.c.o
+
+src/main.i: src/main.c.i
+.PHONY : src/main.i
+
+# target to preprocess a source file
+src/main.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/src/main.c.i
+.PHONY : src/main.c.i
+
+src/main.s: src/main.c.s
+.PHONY : src/main.s
+
+# target to generate assembly for a file
+src/main.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/src/main.c.s
+.PHONY : src/main.c.s
+
+src/serial.o: src/serial.c.o
+.PHONY : src/serial.o
+
+# target to build an object file
+src/serial.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/src/serial.c.o
+.PHONY : src/serial.c.o
+
+src/serial.i: src/serial.c.i
+.PHONY : src/serial.i
+
+# target to preprocess a source file
+src/serial.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/src/serial.c.i
+.PHONY : src/serial.c.i
+
+src/serial.s: src/serial.c.s
+.PHONY : src/serial.s
+
+# target to generate assembly for a file
+src/serial.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/src/serial.c.s
+.PHONY : src/serial.c.s
+
+src/util.o: src/util.c.o
+.PHONY : src/util.o
+
+# target to build an object file
+src/util.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/src/util.c.o
+.PHONY : src/util.c.o
+
+src/util.i: src/util.c.i
+.PHONY : src/util.i
+
+# target to preprocess a source file
+src/util.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/src/util.c.i
+.PHONY : src/util.c.i
+
+src/util.s: src/util.c.s
+.PHONY : src/util.s
+
+# target to generate assembly for a file
+src/util.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MyCProject-ex.dir/build.make CMakeFiles/MyCProject-ex.dir/src/util.c.s
+.PHONY : src/util.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -124,6 +305,28 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... MyCProject-ex"
+	@echo "... src/db.o"
+	@echo "... src/db.i"
+	@echo "... src/db.s"
+	@echo "... src/filter.o"
+	@echo "... src/filter.i"
+	@echo "... src/filter.s"
+	@echo "... src/game.o"
+	@echo "... src/game.i"
+	@echo "... src/game.s"
+	@echo "... src/interp.o"
+	@echo "... src/interp.i"
+	@echo "... src/interp.s"
+	@echo "... src/main.o"
+	@echo "... src/main.i"
+	@echo "... src/main.s"
+	@echo "... src/serial.o"
+	@echo "... src/serial.i"
+	@echo "... src/serial.s"
+	@echo "... src/util.o"
+	@echo "... src/util.i"
+	@echo "... src/util.s"
 .PHONY : help
 
 

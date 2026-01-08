@@ -1,0 +1,1 @@
+/usr/bin/gcc -g "CMakeFiles/LaborAufgaben-ex.dir/src/LaborAufgaben.c.o" -o LaborAufgaben-ex 

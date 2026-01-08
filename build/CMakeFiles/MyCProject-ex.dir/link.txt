@@ -1,0 +1,1 @@
+/usr/bin/gcc -g "CMakeFiles/MyCProject-ex.dir/src/main.c.o" "CMakeFiles/MyCProject-ex.dir/src/serial.c.o" "CMakeFiles/MyCProject-ex.dir/src/db.c.o" "CMakeFiles/MyCProject-ex.dir/src/util.c.o" "CMakeFiles/MyCProject-ex.dir/src/interp.c.o" "CMakeFiles/MyCProject-ex.dir/src/filter.c.o" "CMakeFiles/MyCProject-ex.dir/src/game.c.o" -o MyCProject-ex  -lsqlite3 

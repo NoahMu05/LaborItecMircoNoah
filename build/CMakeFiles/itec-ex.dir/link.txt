@@ -1,0 +1,1 @@
+/usr/bin/gcc -g "CMakeFiles/itec-ex.dir/src/itec.c.o" -o itec-ex  /usr/lib/x86_64-linux-gnu/libsqlite3.so 
