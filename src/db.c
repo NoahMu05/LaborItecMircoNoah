@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sqlite3.h>
 
 int db_open(const char *path, sqlite3 **out){
     if(sqlite3_open(path, out) != SQLITE_OK){
@@ -58,16 +59,18 @@ int db_export_csv(sqlite3 *db, const char *csvfile){
     if(sqlite3_prepare_v2(db, sql, -1, &stmt, 0) != SQLITE_OK){ fclose(f); return -1; }
     while(sqlite3_step(stmt) == SQLITE_ROW){
         int id = sqlite3_column_int(stmt,0);
-        const unsigned char *real = sqlite3_column_text(stmt,1);
+        int type_real = sqlite3_column_type(stmt,1);
+        double reald = sqlite3_column_double(stmt,1);
         double sensor = sqlite3_column_double(stmt,2);
-        const unsigned char *diff = sqlite3_column_text(stmt,3);
+        int type_diff = sqlite3_column_type(stmt,3);
+        double diffd = sqlite3_column_double(stmt,3);
         const unsigned char *ts = sqlite3_column_text(stmt,4);
-        fprintf(f, "%d,%s,%lf,%lf,%s\n",
-            id,
-            real ? (const char*)real : "",
-            sensor,
-            diff ? (const char*)diff : "",
-            ts ? (const char*)ts : "");
+        if(type_real == SQLITE_NULL){
+            fprintf(f, "%d,,%lf,", id, sensor);
+        } else {
+            fprintf(f, "%d,%.6f,%lf,%.6f,", id, reald, sensor, diffd);
+        }
+        fprintf(f, "%s\n", ts ? (const char*)ts : "");
     }
     sqlite3_finalize(stmt);
     fclose(f);
@@ -78,29 +81,30 @@ int db_import_csv(sqlite3 *db, const char *csvfile){
     FILE *f = fopen(csvfile, "r");
     if(!f) return -1;
     char line[512];
-    
+
     if(!fgets(line, sizeof(line), f)){ fclose(f); return -1; }
     while(fgets(line, sizeof(line), f)){
-        int id;
-        double real_cm, sensor_raw;
-        char ts[64];
-   
+        int id = 0;
+        double real_cm = 0.0, sensor_raw = 0.0;
+        char ts[128] = {0};
+
         char *p = line;
-        
         char *tok;
+
         tok = strtok(p, ","); // id
         if(!tok) continue;
+        id = atoi(tok);
         tok = strtok(NULL, ","); // real_cm
-        if(!tok) continue;
-        real_cm = atoi(tok);
+        if(tok && strlen(tok)>0) real_cm = atof(tok);
         tok = strtok(NULL, ","); // sensor_raw
-        if(!tok) continue;
-        sensor_raw = atoi(tok);
-        tok = strtok(NULL, ","); // diff
-        tok = strtok(NULL, ",\n"); // ts
+        if(tok && strlen(tok)>0) sensor_raw = atof(tok);
+        // skip diff
+        tok = strtok(NULL, ",");
+        // ts (rest)
+        tok = strtok(NULL, ",\n");
         if(tok) strncpy(ts, tok, sizeof(ts)-1);
         else ts[0]=0;
-        
+
         db_insert_measure(db, real_cm, sensor_raw, ts[0]?ts:"now");
     }
     fclose(f);

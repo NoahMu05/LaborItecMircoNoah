@@ -11,8 +11,8 @@
 #include <termios.h>
 
 int main(int argc, char *argv[]){
-    const char *device = "/dev/ttyUSB0";
-    int baud = 115200;
+    const char *device = "/dev/USB0";   // Standard auf dein USB0 angepasst
+    int baud = 11250;                   // Standard Baudrate auf 11250 gesetzt
     const char *dbfile = "messung.db";
 
     if(argc >= 2) device = argv[1];
@@ -41,21 +41,20 @@ int main(int argc, char *argv[]){
         if(opt == 1){ // DA - manuell 20 Messungen
             printf("DA Modus: 20 Messungen. Gib reale Abstände in cm ein.\n");
             for(int i=0;i<20;i++){
-                double real = read_int_stdin("Realer Abstand (cm): ");
-                // ließt den realen Abstand ein
+                double real = read_double_stdin("Realer Abstand (cm): ");
                 double sensor = 0;
                 char buf[128];
                 printf("Warte auf Sensorwert...\n");
 
                 while(1){
-                     // 1) alten seriellen Puffer löschen
-    tcflush(serial_fd, TCIFLUSH);
+                    // 1) alten seriellen Puffer löschen (nur wenn open erfolgreich)
+                    if(serial_fd >= 0) tcflush(serial_fd, TCIFLUSH);
 
-    // 2) kurze Wartezeit für frische Daten
-    usleep(200000); // 200 ms
+                    // 2) kurze Wartezeit für frische Daten
+                    usleep(200000); // 200 ms
 
-                    ssize_t n = serial_readline(serial_fd, buf, sizeof(buf));
-                
+                    ssize_t n = (serial_fd >= 0) ? serial_readline(serial_fd, buf, sizeof(buf)) : 0;
+
                     if(n > 0){
                         sensor = atof(buf);
                         break;
@@ -70,37 +69,37 @@ int main(int argc, char *argv[]){
                 char ts[64];
                 timestamp_now(ts, sizeof(ts));
                 if(db_insert_measure(db, real, sensor, ts) == 0){
-                    printf("Messung %d gespeichert: real=%lf sensor=%lf diff=%lf\n", i+1, real, sensor, real - sensor);
+                    printf("Messung %d gespeichert: real=%.3f sensor=%.3f diff=%.3f\n", i+1, real, sensor, real - sensor);
                 } else {
                     printf("Speichern fehlgeschlagen\n");
                 }
             }
-            
+
             db_export_csv(db, "messung_1.csv");
             printf("messung_1.csv geschrieben\n");
         }
         else if(opt == 2){ // TEST - lookup + interpolation
             printf("TEST Modus: Importiere messung_1.csv in DB und baue Lookup\n");
             if(db_import_csv(db, "messung_1.csv") != 0) printf("Import fehlgeschlagen oder Datei nicht vorhanden\n");
-            int *svals = NULL, *rvals = NULL, count = 0;
+            double *svals = NULL, *rvals = NULL;
+            int count = 0;
             if(build_lookup_from_csv("messung_1.csv", &svals, &rvals, &count) != 0){
                 printf("Lookup Aufbau fehlgeschlagen\n");
             } else {
                 printf("Lookup mit %d Punkten aufgebaut\n", count);
-                
+
                 printf("Drücke q um zurück zum Menü. Lese Sensorwerte und zeige interpolierten Abstand.\n");
                 char buf[128];
                 while(1){
-                    ssize_t n = serial_readline(serial_fd, buf, sizeof(buf));
+                    ssize_t n = (serial_fd >= 0) ? serial_readline(serial_fd, buf, sizeof(buf)) : 0;
                     if(n > 0){
                         double sensor = atof(buf);
                         double real = interpolate_from_lookup(sensor, svals, rvals, count);
                         char ts[64]; timestamp_now(ts, sizeof(ts));
-                        
-                        db_insert_measure(db, (double) (real + 0.5), sensor, ts);
-                        printf("Sensor=%lf -> interpoliert=%.2f cm\n", sensor, real);
+
+                        db_insert_measure(db, real, sensor, ts);
+                        printf("Sensor=%.3f -> interpoliert=%.2f cm\n", sensor, real);
                     } else if(n == 0){
-                    
                         int c = nonblocking_getchar();
                         if(c=='q' || c=='Q') break;
                         sleep_ms(200);
@@ -116,8 +115,8 @@ int main(int argc, char *argv[]){
         }
         else if(opt == 3){ // AUTO-Messung
             printf("AUTO Modus: Messe automatisch für ca. 10 Sekunden\n");
-            int duration_ms = 50000;
-            int interval_ms = 100; 
+            int duration_ms = 10000; // ~10s
+            int interval_ms = 100;
             int elapsed = 0;
             char buf[128];
             int prev_ts = 0;
@@ -125,16 +124,16 @@ int main(int argc, char *argv[]){
             double sum_dt = 0;
             int min_dt = 1000000, max_dt = 0;
             while(elapsed < duration_ms){
-                ssize_t n = serial_readline(serial_fd, buf, sizeof(buf));
+                ssize_t n = (serial_fd >= 0) ? serial_readline(serial_fd, buf, sizeof(buf)) : 0;
                 if(n > 0){
                     double sensor = atof(buf);
                     char ts[64]; timestamp_now(ts, sizeof(ts));
                     db_insert_auto(db, sensor, ts);
                     // Histogram wird geupdated
                     system("clear");
-                    printf("AUTO Messung: sensor=%lf\n", sensor);
+                    printf("AUTO Messung: sensor=%.3f\n", sensor);
                     ascii_histogram_update(sensor, 40, 10);
-                    
+
                     int now_ms = elapsed;
                     if(prev_ts != 0){
                         int dt = now_ms - prev_ts;
@@ -157,35 +156,41 @@ int main(int argc, char *argv[]){
         }
         else if(opt == 4){ // FILTER
             printf("FILTER Modus: Lese messung_3.csv, wende Mittelwertfilter (3) an und schreibe messung_3_filtered.csv\n");
-            
+
             FILE *f = fopen("messung_3.csv", "r");
             if(!f){ printf("messung_3.csv nicht gefunden. Führe AUTO zuerst aus.\n"); continue; }
             char line[512];
             if(!fgets(line, sizeof(line), f)){ fclose(f); continue; }
             int cap = 256, n = 0;
-            int *vals = malloc(sizeof(int)*cap);
-            char ts[64];
+            double *vals = malloc(sizeof(double)*cap);
             while(fgets(line, sizeof(line), f)){
-                char *tok = strtok(line, ","); // id
+                char *p = line;
+                char *tok;
+                tok = strtok(p, ","); // id
                 if(!tok) continue;
                 tok = strtok(NULL, ","); // real_cm
                 double real = 0;
-                if(tok && strlen(tok)>0) real = atoi(tok);
+                if(tok && strlen(tok)>0) real = atof(tok);
                 tok = strtok(NULL, ","); // sensor_raw
                 double sensor = 0;
-                if(tok) sensor = atoi(tok);
-                int v = (real>0)? real : sensor;
-                if(n >= cap){ cap *= 2; vals = realloc(vals, sizeof(int)*cap); }
+                if(tok) sensor = atof(tok);
+                double v = (real>0.0)? real : sensor;
+                if(n >= cap){ cap *= 2; vals = realloc(vals, sizeof(double)*cap); }
                 vals[n++] = v;
             }
             fclose(f);
+            if(n == 0){
+                free(vals);
+                printf("Keine Daten in messung_3.csv gefunden\n");
+                continue;
+            }
             double *out = malloc(sizeof(double)*n);
             moving_average_3(vals, n, out);
-            
+
             FILE *fo = fopen("messung_3_filtered.csv", "w");
             fprintf(fo, "index,raw,filtered,diff\n");
             for(int i=0;i<n;i++){
-                fprintf(fo, "%d,%d,%.3f,%.3f\n", i+1, vals[i], out[i], vals[i]-out[i]);
+                fprintf(fo, "%d,%.6f,%.6f,%.6f\n", i+1, vals[i], out[i], vals[i]-out[i]);
             }
             fclose(fo);
             free(vals); free(out);

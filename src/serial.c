@@ -1,4 +1,5 @@
 //Serielle Kommunikation
+
 #include "serial.h"
 #include <termios.h>
 #include <fcntl.h>
@@ -9,12 +10,12 @@
 
 static int baud_to_const(int baud){
     switch(baud){
-        case 9600: return B9600;
-        case 19200: return B19200;
-        case 38400: return B38400;
-        case 57600: return B57600;
+        case 9600:   return B9600;
+        case 19200:  return B19200;
+        case 38400:  return B38400;
+        case 57600:  return B57600;
         case 115200: return B115200;
-        default: return B9600;
+        default:     return 0; // 0 signalisiert: kein vordefinierter konstanter Wert
     }
 }
 
@@ -30,8 +31,18 @@ int serial_open(const char *device, int baud){
         close(fd);
         return -1;
     }
-    cfsetospeed(&tty, baud_to_const(baud));
-    cfsetispeed(&tty, baud_to_const(baud));
+
+    int bconst = baud_to_const(baud);
+    if(bconst != 0){
+        cfsetospeed(&tty, bconst);
+        cfsetispeed(&tty, bconst);
+    } else {
+        // Keine passende Standard-Baudrate: Fallback auf 38400 und Warnung.
+        fprintf(stderr, "Warnung: Baud %d nicht als Standardwert verfügbar, fall back auf 38400\n", baud);
+        cfsetospeed(&tty, B38400);
+        cfsetispeed(&tty, B38400);
+    }
+
     tty.c_cflag = (tty.c_cflag & ~CSIZE) | CS8;
     tty.c_iflag &= ~(IGNBRK | ICRNL | IXON | IXOFF | IXANY);
     tty.c_lflag = 0;
@@ -51,6 +62,7 @@ int serial_open(const char *device, int baud){
 }
 
 ssize_t serial_readline(int fd, char *buf, size_t maxlen){
+    if(fd < 0) return 0;
     size_t i = 0;
     char c;
     while(i + 1 < maxlen){

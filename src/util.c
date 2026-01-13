@@ -5,13 +5,15 @@
 #include <termios.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <string.h>
+#include <stdlib.h>
 
-void ascii_histogram_update(int value, int width, int height){
+void ascii_histogram_update(double value, int width, int height){
     // simple vertical bar scaled to height
     int maxv = 300; // expected max distance for scaling; adjust if needed
     if(value < 0) value = 0;
     if(value > maxv) value = maxv;
-    int h = (value * height) / maxv;
+    int h = (int)((value * height) / maxv);
     for(int row = height; row >= 0; --row){
         for(int col = 0; col < width; ++col){
             if(row <= h) putchar('#'); else putchar(' ');
@@ -41,12 +43,15 @@ void timestamp_now(char *buf, size_t len){
     strftime(buf, len, "%Y-%m-%d %H:%M:%S", &tm);
 }
 
-int read_int_stdin(const char *prompt){
+double read_double_stdin(const char *prompt){
     char line[128];
-    int val = 0;
+    double val = 0.0;
     printf("%s", prompt);
-    if(!fgets(line, sizeof(line), stdin)) return 0;
-    val = atoi(line);
+    if(!fgets(line, sizeof(line), stdin)) return 0.0;
+    // trim newline
+    char *nl = strchr(line, '\n');
+    if(nl) *nl = '\0';
+    val = atof(line);
     return val;
 }
 
