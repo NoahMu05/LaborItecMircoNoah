@@ -8,10 +8,11 @@
 #include "interp.h"
 #include "filter.h"
 #include "game.h"
+#include <termios.h>
 
 int main(int argc, char *argv[]){
     const char *device = "/dev/ttyUSB0";
-    int baud = 9600;
+    int baud = 115200;
     const char *dbfile = "messung.db";
 
     if(argc >= 2) device = argv[1];
@@ -40,15 +41,23 @@ int main(int argc, char *argv[]){
         if(opt == 1){ // DA - manuell 20 Messungen
             printf("DA Modus: 20 Messungen. Gib reale Abstände in cm ein.\n");
             for(int i=0;i<20;i++){
-                int real = read_int_stdin("Realer Abstand (cm): ");
+                double real = read_int_stdin("Realer Abstand (cm): ");
                 // ließt den realen Abstand ein
-                int sensor = 0;
+                double sensor = 0;
                 char buf[128];
                 printf("Warte auf Sensorwert...\n");
+
                 while(1){
+                     // 1) alten seriellen Puffer löschen
+    tcflush(serial_fd, TCIFLUSH);
+
+    // 2) kurze Wartezeit für frische Daten
+    usleep(200000); // 200 ms
+
                     ssize_t n = serial_readline(serial_fd, buf, sizeof(buf));
+                
                     if(n > 0){
-                        sensor = atoi(buf);
+                        sensor = atof(buf);
                         break;
                     } else if(n == 0){
                         printf("Kein Sensorwert empfangen. Drücke Enter um erneut zu versuchen.\n");
@@ -61,7 +70,7 @@ int main(int argc, char *argv[]){
                 char ts[64];
                 timestamp_now(ts, sizeof(ts));
                 if(db_insert_measure(db, real, sensor, ts) == 0){
-                    printf("Messung %d gespeichert: real=%d sensor=%d diff=%d\n", i+1, real, sensor, real - sensor);
+                    printf("Messung %d gespeichert: real=%lf sensor=%lf diff=%lf\n", i+1, real, sensor, real - sensor);
                 } else {
                     printf("Speichern fehlgeschlagen\n");
                 }
@@ -84,12 +93,12 @@ int main(int argc, char *argv[]){
                 while(1){
                     ssize_t n = serial_readline(serial_fd, buf, sizeof(buf));
                     if(n > 0){
-                        int sensor = atoi(buf);
+                        double sensor = atof(buf);
                         double real = interpolate_from_lookup(sensor, svals, rvals, count);
                         char ts[64]; timestamp_now(ts, sizeof(ts));
                         
-                        db_insert_measure(db, (int) (real + 0.5), sensor, ts);
-                        printf("Sensor=%d -> interpoliert=%.2f cm\n", sensor, real);
+                        db_insert_measure(db, (double) (real + 0.5), sensor, ts);
+                        printf("Sensor=%lf -> interpoliert=%.2f cm\n", sensor, real);
                     } else if(n == 0){
                     
                         int c = nonblocking_getchar();
@@ -107,7 +116,7 @@ int main(int argc, char *argv[]){
         }
         else if(opt == 3){ // AUTO-Messung
             printf("AUTO Modus: Messe automatisch für ca. 10 Sekunden\n");
-            int duration_ms = 10000;
+            int duration_ms = 50000;
             int interval_ms = 100; 
             int elapsed = 0;
             char buf[128];
@@ -118,12 +127,12 @@ int main(int argc, char *argv[]){
             while(elapsed < duration_ms){
                 ssize_t n = serial_readline(serial_fd, buf, sizeof(buf));
                 if(n > 0){
-                    int sensor = atoi(buf);
+                    double sensor = atof(buf);
                     char ts[64]; timestamp_now(ts, sizeof(ts));
                     db_insert_auto(db, sensor, ts);
                     // Histogram wird geupdated
                     system("clear");
-                    printf("AUTO Messung: sensor=%d\n", sensor);
+                    printf("AUTO Messung: sensor=%lf\n", sensor);
                     ascii_histogram_update(sensor, 40, 10);
                     
                     int now_ms = elapsed;
@@ -160,10 +169,10 @@ int main(int argc, char *argv[]){
                 char *tok = strtok(line, ","); // id
                 if(!tok) continue;
                 tok = strtok(NULL, ","); // real_cm
-                int real = 0;
+                double real = 0;
                 if(tok && strlen(tok)>0) real = atoi(tok);
                 tok = strtok(NULL, ","); // sensor_raw
-                int sensor = 0;
+                double sensor = 0;
                 if(tok) sensor = atoi(tok);
                 int v = (real>0)? real : sensor;
                 if(n >= cap){ cap *= 2; vals = realloc(vals, sizeof(int)*cap); }

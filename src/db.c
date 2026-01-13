@@ -13,9 +13,9 @@ int db_open(const char *path, sqlite3 **out){
     const char *sql =
         "CREATE TABLE IF NOT EXISTS measurements("
         "id INTEGER PRIMARY KEY AUTOINCREMENT,"
-        "real_cm INTEGER,"
-        "sensor_raw INTEGER NOT NULL,"
-        "diff INTEGER,"
+        "real_cm REAL,"
+        "sensor_raw REAL NOT NULL,"
+        "diff REAL,"
         "ts TEXT NOT NULL"
         ");";
     if(sqlite3_exec(*out, sql, 0,0,0) != SQLITE_OK){
@@ -25,24 +25,24 @@ int db_open(const char *path, sqlite3 **out){
     return 0;
 }
 
-int db_insert_measure(sqlite3 *db, int real_cm, int sensor_raw, const char *ts){
+int db_insert_measure(sqlite3 *db, double real_cm, double sensor_raw, const char *ts){
     const char *sql = "INSERT INTO measurements(real_cm,sensor_raw,diff,ts) VALUES(?,?,?,?);";
     sqlite3_stmt *stmt;
     if(sqlite3_prepare_v2(db, sql, -1, &stmt, 0) != SQLITE_OK) return -1;
-    sqlite3_bind_int(stmt,1,real_cm);
-    sqlite3_bind_int(stmt,2,sensor_raw);
-    sqlite3_bind_int(stmt,3, real_cm - sensor_raw);
+    sqlite3_bind_double(stmt,1,real_cm);
+    sqlite3_bind_double(stmt,2,sensor_raw);
+    sqlite3_bind_double(stmt,3, real_cm - sensor_raw);
     sqlite3_bind_text(stmt,4, ts, -1, SQLITE_STATIC);
     int rc = sqlite3_step(stmt);
     sqlite3_finalize(stmt);
     return (rc == SQLITE_DONE) ? 0 : -1;
 }
 
-int db_insert_auto(sqlite3 *db, int sensor_raw, const char *ts){
+int db_insert_auto(sqlite3 *db, double sensor_raw, const char *ts){
     const char *sql = "INSERT INTO measurements(real_cm,sensor_raw,diff,ts) VALUES(NULL,?,NULL,?);";
     sqlite3_stmt *stmt;
     if(sqlite3_prepare_v2(db, sql, -1, &stmt, 0) != SQLITE_OK) return -1;
-    sqlite3_bind_int(stmt,1,sensor_raw);
+    sqlite3_bind_double(stmt,1,sensor_raw);
     sqlite3_bind_text(stmt,2, ts, -1, SQLITE_STATIC);
     int rc = sqlite3_step(stmt);
     sqlite3_finalize(stmt);
@@ -59,10 +59,10 @@ int db_export_csv(sqlite3 *db, const char *csvfile){
     while(sqlite3_step(stmt) == SQLITE_ROW){
         int id = sqlite3_column_int(stmt,0);
         const unsigned char *real = sqlite3_column_text(stmt,1);
-        int sensor = sqlite3_column_int(stmt,2);
+        double sensor = sqlite3_column_double(stmt,2);
         const unsigned char *diff = sqlite3_column_text(stmt,3);
         const unsigned char *ts = sqlite3_column_text(stmt,4);
-        fprintf(f, "%d,%s,%d,%s,%s\n",
+        fprintf(f, "%d,%s,%lf,%lf,%s\n",
             id,
             real ? (const char*)real : "",
             sensor,
@@ -81,7 +81,8 @@ int db_import_csv(sqlite3 *db, const char *csvfile){
     
     if(!fgets(line, sizeof(line), f)){ fclose(f); return -1; }
     while(fgets(line, sizeof(line), f)){
-        int id, real_cm, sensor_raw;
+        int id;
+        double real_cm, sensor_raw;
         char ts[64];
    
         char *p = line;
