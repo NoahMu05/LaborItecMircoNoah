@@ -1,4 +1,5 @@
 //Serielle Kommunikation
+
 #include "serial.h"
 #include <termios.h>
 #include <fcntl.h>
@@ -6,26 +7,15 @@
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>
-#include <sys/ioctl.h>
-
-#ifdef __linux__
-#include <linux/termios.h> // für termios2 / BOTHER falls verfügbar
-#ifndef TCGETS2
-#define TCGETS2 0x802C542A
-#endif
-#ifndef TCSETS2
-#define TCSETS2 0x402C542B
-#endif
-#endif
 
 static int baud_to_const(int baud){
     switch(baud){
-        case 9600: return B9600;
-        case 19200: return B19200;
-        case 38400: return B38400;
-        case 57600: return B57600;
+        case 9600:   return B9600;
+        case 19200:  return B19200;
+        case 38400:  return B38400;
+        case 57600:  return B57600;
         case 115200: return B115200;
-        default: return 0; // 0 signalisiert: kein vordefinierter konstanter Wert
+        default:     return 0; // 0 signalisiert: kein vordefinierter konstanter Wert
     }
 }
 
@@ -47,35 +37,10 @@ int serial_open(const char *device, int baud){
         cfsetospeed(&tty, bconst);
         cfsetispeed(&tty, bconst);
     } else {
-#ifdef __linux__
-        // Versuch: benutzerdefinierte Baudrate über termios2 / BOTHER setzen
-        struct termios2 tio2;
-        if(ioctl(fd, TCGETS2, &tio2) == 0){
-            tio2.c_cflag &= ~CBAUD;
-#ifdef BOTHER
-            tio2.c_cflag |= BOTHER;
-#else
-            tio2.c_cflag |= BOTHER;
-#endif
-            tio2.c_ispeed = baud;
-            tio2.c_ospeed = baud;
-            if(ioctl(fd, TCSETS2, &tio2) != 0){
-                // fallback: setze auf 38400
-                cfsetospeed(&tty, B38400);
-                cfsetispeed(&tty, B38400);
-            } else {
-                // termios2 erfolgreich gesetzt; wir sollten trotzdem die Standard termios flags setzen unten
-            }
-        } else {
-            // kein termios2 verfügbar: fallback
-            cfsetospeed(&tty, B38400);
-            cfsetispeed(&tty, B38400);
-        }
-#else
-        // Nicht-Linux: fallback auf 38400
+        // Keine passende Standard-Baudrate: Fallback auf 38400 und Warnung.
+        fprintf(stderr, "Warnung: Baud %d nicht als Standardwert verfügbar, fall back auf 38400\n", baud);
         cfsetospeed(&tty, B38400);
         cfsetispeed(&tty, B38400);
-#endif
     }
 
     tty.c_cflag = (tty.c_cflag & ~CSIZE) | CS8;
