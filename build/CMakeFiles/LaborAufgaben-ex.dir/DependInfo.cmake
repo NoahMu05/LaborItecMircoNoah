@@ -9,6 +9,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/munck/LaborItecMircoNoah/src/LaborAufgaben.c" "CMakeFiles/LaborAufgaben-ex.dir/src/LaborAufgaben.c.o" "gcc" "CMakeFiles/LaborAufgaben-ex.dir/src/LaborAufgaben.c.o.d"
+  "/home/munck/LaborItecMircoNoah/src/itec.c" "CMakeFiles/LaborAufgaben-ex.dir/src/itec.c.o" "gcc" "CMakeFiles/LaborAufgaben-ex.dir/src/itec.c.o.d"
   )
 
 # Targets to which this target links which contain Fortran sources.

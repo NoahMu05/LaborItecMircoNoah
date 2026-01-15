@@ -1,44 +1,14 @@
 [
 {
   "directory": "/home/munck/LaborItecMircoNoah/build",
-  "command": "/usr/bin/gcc  -I/home/munck/LaborItecMircoNoah/src -g -std=gnu11 -o CMakeFiles/MyCProject-ex.dir/src/main.c.o -c /home/munck/LaborItecMircoNoah/src/main.c",
-  "file": "/home/munck/LaborItecMircoNoah/src/main.c",
-  "output": "CMakeFiles/MyCProject-ex.dir/src/main.c.o"
+  "command": "/usr/bin/gcc   -g -std=gnu11 -o CMakeFiles/LaborAufgaben-ex.dir/src/LaborAufgaben.c.o -c /home/munck/LaborItecMircoNoah/src/LaborAufgaben.c",
+  "file": "/home/munck/LaborItecMircoNoah/src/LaborAufgaben.c",
+  "output": "CMakeFiles/LaborAufgaben-ex.dir/src/LaborAufgaben.c.o"
 },
 {
   "directory": "/home/munck/LaborItecMircoNoah/build",
-  "command": "/usr/bin/gcc  -I/home/munck/LaborItecMircoNoah/src -g -std=gnu11 -o CMakeFiles/MyCProject-ex.dir/src/serial.c.o -c /home/munck/LaborItecMircoNoah/src/serial.c",
-  "file": "/home/munck/LaborItecMircoNoah/src/serial.c",
-  "output": "CMakeFiles/MyCProject-ex.dir/src/serial.c.o"
-},
-{
-  "directory": "/home/munck/LaborItecMircoNoah/build",
-  "command": "/usr/bin/gcc  -I/home/munck/LaborItecMircoNoah/src -g -std=gnu11 -o CMakeFiles/MyCProject-ex.dir/src/db.c.o -c /home/munck/LaborItecMircoNoah/src/db.c",
-  "file": "/home/munck/LaborItecMircoNoah/src/db.c",
-  "output": "CMakeFiles/MyCProject-ex.dir/src/db.c.o"
-},
-{
-  "directory": "/home/munck/LaborItecMircoNoah/build",
-  "command": "/usr/bin/gcc  -I/home/munck/LaborItecMircoNoah/src -g -std=gnu11 -o CMakeFiles/MyCProject-ex.dir/src/util.c.o -c /home/munck/LaborItecMircoNoah/src/util.c",
-  "file": "/home/munck/LaborItecMircoNoah/src/util.c",
-  "output": "CMakeFiles/MyCProject-ex.dir/src/util.c.o"
-},
-{
-  "directory": "/home/munck/LaborItecMircoNoah/build",
-  "command": "/usr/bin/gcc  -I/home/munck/LaborItecMircoNoah/src -g -std=gnu11 -o CMakeFiles/MyCProject-ex.dir/src/interp.c.o -c /home/munck/LaborItecMircoNoah/src/interp.c",
-  "file": "/home/munck/LaborItecMircoNoah/src/interp.c",
-  "output": "CMakeFiles/MyCProject-ex.dir/src/interp.c.o"
-},
-{
-  "directory": "/home/munck/LaborItecMircoNoah/build",
-  "command": "/usr/bin/gcc  -I/home/munck/LaborItecMircoNoah/src -g -std=gnu11 -o CMakeFiles/MyCProject-ex.dir/src/filter.c.o -c /home/munck/LaborItecMircoNoah/src/filter.c",
-  "file": "/home/munck/LaborItecMircoNoah/src/filter.c",
-  "output": "CMakeFiles/MyCProject-ex.dir/src/filter.c.o"
-},
-{
-  "directory": "/home/munck/LaborItecMircoNoah/build",
-  "command": "/usr/bin/gcc  -I/home/munck/LaborItecMircoNoah/src -g -std=gnu11 -o CMakeFiles/MyCProject-ex.dir/src/game.c.o -c /home/munck/LaborItecMircoNoah/src/game.c",
-  "file": "/home/munck/LaborItecMircoNoah/src/game.c",
-  "output": "CMakeFiles/MyCProject-ex.dir/src/game.c.o"
+  "command": "/usr/bin/gcc   -g -std=gnu11 -o CMakeFiles/LaborAufgaben-ex.dir/src/itec.c.o -c /home/munck/LaborItecMircoNoah/src/itec.c",
+  "file": "/home/munck/LaborItecMircoNoah/src/itec.c",
+  "output": "CMakeFiles/LaborAufgaben-ex.dir/src/itec.c.o"
 }
 ]

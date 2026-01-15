@@ -1,17 +1,14 @@
 cmake_minimum_required(VERSION 3.10)
-project(MyCProject C)
+project(MyCProject)
+
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_BUILD_TYPE Debug)
 
-add_executable(MyCProject-ex
-    src/main.c
-    src/serial.c
-    src/db.c
-    src/util.c
-    src/interp.c
-    src/filter.c
-    src/game.c
-)
+set(CMAKE_CXX_COMPILER "/usr/bin/gcc")
 
-target_include_directories(MyCProject-ex PRIVATE src)
-target_link_libraries(MyCProject-ex PRIVATE sqlite3)
+find_package(SQLite3 REQUIRED)
+
+add_executable(LaborAufgaben-ex src/LaborAufgaben.c src/itec.c)
+target_link_libraries(LaborAufgaben-ex SQLite::SQLite3 m)
+
+
