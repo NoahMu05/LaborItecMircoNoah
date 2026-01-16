@@ -1,6 +1,10 @@
 file(REMOVE_RECURSE
   "CMakeFiles/LaborAufgaben-ex.dir/src/LaborAufgaben.c.o"
   "CMakeFiles/LaborAufgaben-ex.dir/src/LaborAufgaben.c.o.d"
+  "CMakeFiles/LaborAufgaben-ex.dir/src/automode.c.o"
+  "CMakeFiles/LaborAufgaben-ex.dir/src/automode.c.o.d"
+  "CMakeFiles/LaborAufgaben-ex.dir/src/filter.c.o"
+  "CMakeFiles/LaborAufgaben-ex.dir/src/filter.c.o.d"
   "CMakeFiles/LaborAufgaben-ex.dir/src/itec.c.o"
   "CMakeFiles/LaborAufgaben-ex.dir/src/itec.c.o.d"
   "LaborAufgaben-ex"

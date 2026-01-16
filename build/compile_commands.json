@@ -10,5 +10,17 @@
   "command": "/usr/bin/gcc   -g -std=gnu11 -o CMakeFiles/LaborAufgaben-ex.dir/src/itec.c.o -c /home/munck/LaborItecMircoNoah/src/itec.c",
   "file": "/home/munck/LaborItecMircoNoah/src/itec.c",
   "output": "CMakeFiles/LaborAufgaben-ex.dir/src/itec.c.o"
+},
+{
+  "directory": "/home/munck/LaborItecMircoNoah/build",
+  "command": "/usr/bin/gcc   -g -std=gnu11 -o CMakeFiles/LaborAufgaben-ex.dir/src/filter.c.o -c /home/munck/LaborItecMircoNoah/src/filter.c",
+  "file": "/home/munck/LaborItecMircoNoah/src/filter.c",
+  "output": "CMakeFiles/LaborAufgaben-ex.dir/src/filter.c.o"
+},
+{
+  "directory": "/home/munck/LaborItecMircoNoah/build",
+  "command": "/usr/bin/gcc   -g -std=gnu11 -o CMakeFiles/LaborAufgaben-ex.dir/src/automode.c.o -c /home/munck/LaborItecMircoNoah/src/automode.c",
+  "file": "/home/munck/LaborItecMircoNoah/src/automode.c",
+  "output": "CMakeFiles/LaborAufgaben-ex.dir/src/automode.c.o"
 }
 ]

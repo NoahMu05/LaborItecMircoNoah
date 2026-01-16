@@ -1,4 +1,6 @@
 #include "itec.h"
+#include "filter.h"
+#include "automode.h"
 
 #include <stdio.h>
 #include <sqlite3.h>
@@ -217,6 +219,12 @@ int main(int argc, char *argv[])
 
         else if (strcmp(modus, "4") == 0) // Aufgabe 3:Auto Messung
         {
+            automode_run(serial_fd, MAX_MEASUREMENTS, chunk, line_buffer, &line_len);
+        }
+
+        
+       /* {
+            
             bool debug = false;
             min_dt = 999999.0;
             max_dt = 0.0;
@@ -398,22 +406,146 @@ int main(int argc, char *argv[])
             printf("-----------------------------\n");
 
             
-        }
+        }*/
        
 
 
 
         else if (strcmp(modus, "5") == 0) //Aufgabe 4
         {
-            //Aufgabe 4 programmieren 
-           
-        } 
-        else if (strcmp(modus, "6") == 0) //Aufgabe 5
+            int rc = filter_run_from_csv("Messung3.csv", "Messung3_filtered.csv");
+        }
+
+            /*
+        printf("\n--- FILTER-Modus gestartet ---\n");
+       
+    FILE *fp = fopen("Messung3.csv", "r");
+    if (!fp) {
+        printf("Fehler: Messung3.csv nicht gefunden!\nBitte zuerst AUTO-Modus ausführen.\n");
+        continue;
+    }
+
+    size_t capacity = 1024;
+    size_t n = 0;
+    double *raw = malloc(capacity * sizeof(double));
+    double *filtered = NULL;
+    double *diff = NULL;
+    if (!raw) {
+        fprintf(stderr, "Speicherfehler\n");
+        fclose(fp);
+        continue;
+    }
+
+    char buf[2048];
+    // Header überspringen falls vorhanden 
+    if (!fgets(buf, sizeof(buf), fp)) {
+        fprintf(stderr, "Datei leer oder Lesefehler\n");
+        free(raw);
+        fclose(fp);
+        continue;
+    }
+
+    while (fgets(buf, sizeof(buf), fp)) {
+        // Zeilenlänge prüfen: falls länger als Puffer, überspringen
+        size_t len = strlen(buf);
+        if (len == sizeof(buf)-1 && buf[len-1] != '\n') {
+            // zu lange Zeile: verwerfen Rest der Zeile
+            int c;
+            while ((c = fgetc(fp)) != EOF && c != '\n') {}
+            continue;
+        }
+
+        // CR entfernen (Windows-Zeilenenden)
+        if (len > 0 && buf[len-1] == '\n') buf[--len] = '\0';
+        if (len > 0 && buf[len-1] == '\r') buf[--len] = '\0';
+
+        // Tokenize CSV: nr,ts,sensor,interpoliert,abw 
+        char *saveptr = NULL;
+        char *tok = strtok_r(buf, ",", &saveptr); // nr 
+        if (!tok) continue;
+        tok = strtok_r(NULL, ",", &saveptr); // ts 
+        if (!tok) continue;
+        tok = strtok_r(NULL, ",", &saveptr); // sensor 
+        if (!tok) continue;
+        tok = strtok_r(NULL, ",", &saveptr); // interpoliert 
+        if (!tok) continue;
+        
+
+        // strtod mit Fehlerprüfung 
+        char *endptr;
+        double interpoliert = strtod(tok, &endptr);
+        if (endptr == tok) {
+            // kein gültiger double 
+            continue;
+        }
+
+        if (n >= capacity) {
+            size_t newcap = capacity * 2;
+            double *r2 = realloc(raw, newcap * sizeof(double));
+            if (!r2) break;
+            raw = r2;
+            capacity = newcap;
+        }
+        raw[n++] = interpoliert;
+    }
+    fclose(fp);
+
+    if (n == 0) {
+        printf("Keine Werte eingelesen.\n");
+        free(raw);
+        continue;
+    }
+
+    // Speicher für Ergebnisse 
+    filtered = malloc(n * sizeof(double));
+    diff = malloc(n * sizeof(double));
+    if (!filtered || !diff) {
+        fprintf(stderr, "Speicherfehler (Ergebnisarrays)\n");
+        free(raw); free(filtered); free(diff);
+        continue;
+    }
+
+    if (n == 1) {
+        filtered[0] = raw[0];
+    } else {
+        // Randbehandlung: 2-Punkt-Mittel an den Rändern 
+        filtered[0] = (raw[0] + raw[1]) / 2.0;
+        for (size_t i = 1; i + 1 < n; ++i) {
+            filtered[i] = (raw[i-1] + raw[i] + raw[i+1]) / 3.0;
+        }
+        filtered[n-1] = (raw[n-2] + raw[n-1]) / 2.0;
+    }
+
+    for (size_t i = 0; i < n; ++i) diff[i] = raw[i] - filtered[i];
+
+    FILE *out = fopen("Messung3_filtered.csv", "w");
+    if (!out) {
+        fprintf(stderr, "Fehler beim Schreiben der Output-CSV\n");
+        free(raw); free(filtered); free(diff);
+        continue;
+    }
+    fprintf(out, "raw,filtered,diff\n");
+    for (size_t i = 0; i < n; ++i) {
+        fprintf(out, "%.6f,%.6f,%.6f\n", raw[i], filtered[i], diff[i]);
+    }
+    fclose(out);
+
+    printf("✔ %zu Werte gelesen. Datei Messung3_filtered.csv geschrieben\n", n);
+
+    free(raw); free(filtered); free(diff);
+*/
+        
+    
+    
+    else if (strcmp(modus, "6") == 0) //Aufgabe 5
         {
             //Aufgabe 5 programmieren
             
         } 
-        else 
+        
+        
+    
+    else 
         {
             printf("Ungültiger Modus. Bitte erneut versuchen.\n");
             continue;

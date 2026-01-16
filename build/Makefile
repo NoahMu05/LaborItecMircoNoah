@@ -153,6 +153,54 @@ src/LaborAufgaben.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LaborAufgaben-ex.dir/build.make CMakeFiles/LaborAufgaben-ex.dir/src/LaborAufgaben.c.s
 .PHONY : src/LaborAufgaben.c.s
 
+src/automode.o: src/automode.c.o
+.PHONY : src/automode.o
+
+# target to build an object file
+src/automode.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LaborAufgaben-ex.dir/build.make CMakeFiles/LaborAufgaben-ex.dir/src/automode.c.o
+.PHONY : src/automode.c.o
+
+src/automode.i: src/automode.c.i
+.PHONY : src/automode.i
+
+# target to preprocess a source file
+src/automode.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LaborAufgaben-ex.dir/build.make CMakeFiles/LaborAufgaben-ex.dir/src/automode.c.i
+.PHONY : src/automode.c.i
+
+src/automode.s: src/automode.c.s
+.PHONY : src/automode.s
+
+# target to generate assembly for a file
+src/automode.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LaborAufgaben-ex.dir/build.make CMakeFiles/LaborAufgaben-ex.dir/src/automode.c.s
+.PHONY : src/automode.c.s
+
+src/filter.o: src/filter.c.o
+.PHONY : src/filter.o
+
+# target to build an object file
+src/filter.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LaborAufgaben-ex.dir/build.make CMakeFiles/LaborAufgaben-ex.dir/src/filter.c.o
+.PHONY : src/filter.c.o
+
+src/filter.i: src/filter.c.i
+.PHONY : src/filter.i
+
+# target to preprocess a source file
+src/filter.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LaborAufgaben-ex.dir/build.make CMakeFiles/LaborAufgaben-ex.dir/src/filter.c.i
+.PHONY : src/filter.c.i
+
+src/filter.s: src/filter.c.s
+.PHONY : src/filter.s
+
+# target to generate assembly for a file
+src/filter.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LaborAufgaben-ex.dir/build.make CMakeFiles/LaborAufgaben-ex.dir/src/filter.c.s
+.PHONY : src/filter.c.s
+
 src/itec.o: src/itec.c.o
 .PHONY : src/itec.o
 
@@ -189,6 +237,12 @@ help:
 	@echo "... src/LaborAufgaben.o"
 	@echo "... src/LaborAufgaben.i"
 	@echo "... src/LaborAufgaben.s"
+	@echo "... src/automode.o"
+	@echo "... src/automode.i"
+	@echo "... src/automode.s"
+	@echo "... src/filter.o"
+	@echo "... src/filter.i"
+	@echo "... src/filter.s"
 	@echo "... src/itec.o"
 	@echo "... src/itec.i"
 	@echo "... src/itec.s"

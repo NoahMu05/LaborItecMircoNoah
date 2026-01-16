@@ -307,7 +307,7 @@ int configure_com_port(const char *port, int serial_port)
     tty.c_oflag &= ~OPOST;
 
     // Timeout und minimale Anzahl an Bytes
-    tty.c_cc[VTIME] = 10;
+    tty.c_cc[VTIME] = 10; // 1s Timeout
     tty.c_cc[VMIN]  = 10;
 
     // Einstellungen übernehmen
