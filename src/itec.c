@@ -514,7 +514,6 @@ int import_lookup_from_csv(sqlite3 *db, const char *filename)
         int messung_nr;
         double abstand_real, abstand_sensor, abweichung;
 
-        // Format: Messung_Nr,Abstand_Real,Abstand_Sensor,Abweichung
         if (sscanf(line, "%d,%lf,%lf,%lf",
                    &messung_nr, &abstand_real, &abstand_sensor, &abweichung) == 4)
         {
@@ -541,9 +540,7 @@ double Interpolate_measurement(sqlite3 *db, float sensorwert, bool debug)
 {
     LookupEntry low, high;
 
-    //
-    // 1. Unteren Nachbarwert suchen
-    //
+   
     if (!lookup_lower(db, sensorwert, &low)) {
         if (debug)
             printf("Kein unterer Nachbarwert gefunden! Extrapoliere nach unten...\n");
@@ -579,9 +576,7 @@ double Interpolate_measurement(sqlite3 *db, float sensorwert, bool debug)
 
         sqlite3_finalize(stmt);
     }
-    //
-    // 2. Oberen Nachbarwert suchen
-    //
+   
     else if (!lookup_upper(db, sensorwert, &high)) {
         if (debug)
             printf("Kein oberer Nachbarwert gefunden! Extrapoliere nach oben...\n");
@@ -618,17 +613,12 @@ double Interpolate_measurement(sqlite3 *db, float sensorwert, bool debug)
         sqlite3_finalize(stmt);
     }
 
-    //
-    // Debug-Ausgabe
-    //
     if (debug) {
         printf("LOW  : Sensor=%.2f  Real=%.2f\n", low.sensor_raw, low.real_distance);
         printf("HIGH : Sensor=%.2f  Real=%.2f\n", high.sensor_raw, high.real_distance);
     }
 
-    //
-    // 3. Interpolation / Extrapolation
-    //
+   
     double interpolated_value;
 
     if (high.sensor_raw == low.sensor_raw) {

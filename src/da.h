@@ -1,4 +1,3 @@
-/* da.h */
 #ifndef DA_H
 #define DA_H
 
@@ -19,4 +18,4 @@ int da_run(int serial_fd,
 }
 #endif
 
-#endif /* DA_H */
+#endif 

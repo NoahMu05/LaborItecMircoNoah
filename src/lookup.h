@@ -18,4 +18,4 @@ int lookup_run(int serial_fd,
 }
 #endif
 
-#endif /* LOOKUP_H */
+#endif 

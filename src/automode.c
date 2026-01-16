@@ -1,5 +1,5 @@
 #include "automode.h"
-#include "itec.h"      /* enthält Deklarationen: open_database, create_lookup_table, read_sensor_value, Interpolate_measurement, get_terminal_dim, print_hist, set_input_mode, reset_input_mode, execute_sql, execute_sql_csv */
+#include "itec.h"      
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -15,7 +15,6 @@
 #include <sys/stat.h>
 #include <errno.h>
 
-/* Lokale Hilfsfunktion */
 static void strip_crlf(char *s) {
     if (!s) return;
     size_t len = strlen(s);
@@ -104,7 +103,7 @@ int automode_run(int serial_fd,
 
         double abweichung = interpolated_value - sensorwert;
 
-        double Hoehe = 12.5;
+        double Hoehe = 13;
         if (interpolated_value > Hoehe) {
             interpolated_value = Hoehe;
         }
@@ -136,7 +135,7 @@ int automode_run(int serial_fd,
 
         char line[256];
         if (fgets(line, sizeof(line), fp)) {
-            /* Header übersprungen */
+           
         }
 
         while (fgets(line, sizeof(line), fp))

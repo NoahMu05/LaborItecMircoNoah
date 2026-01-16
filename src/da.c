@@ -1,4 +1,3 @@
-/* da.c */
 #include "da.h"
 #include "itec.h"
 #include <stdio.h>

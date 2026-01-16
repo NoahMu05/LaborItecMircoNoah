@@ -23,4 +23,4 @@ int filter_run_from_csv(const char *in_path, const char *out_path);
 }
 #endif
 
-#endif /* FILTER_H */
+#endif 
