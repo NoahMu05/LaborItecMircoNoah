@@ -42,7 +42,7 @@ int max_arr_struct(struct array_static *arr) {
 
 int get_terminal_dim (struct winsize *w)
 {
-    //get terminal window size
+    
     if (ioctl(STDOUT_FILENO, TIOCGWINSZ, w) == -1) {
         perror("ioctl");
         return 1;
@@ -113,9 +113,7 @@ int partition(int arr[], int low, int high)
         if (i < j) 
         {
             swap(&arr[i], &arr[j]);
-            /* print_hist(high, arr, 0, high);
-            usleep(500*1000);
-            system("clear"); */
+            
         }
         
     }
@@ -162,8 +160,6 @@ void merge(int arr[], int l, int m, int r)
     for (j = 0; j < n2; j++)
         R[j] = arr[m + 1 + j];
 
-    // Merge the temp arrays back
-    // into arr[l..r]
     i = 0;
     j = 0;
     k = l;
@@ -215,7 +211,6 @@ int execute_sql(sqlite3 *db, const char *sql)
         return rc;
     }
     
-    // Spaltenüberschriften ausgeben
     int cols = sqlite3_column_count(stmt);
     if (cols > 0) {
         for (int i = 0; i < cols; i++) {
@@ -224,7 +219,6 @@ int execute_sql(sqlite3 *db, const char *sql)
         }
         printf("\n");
         
-        // Trennlinie
         for (int i = 0; i < cols; i++) {
             int len = strlen(sqlite3_column_name(stmt, i));
             for (int j = 0; j < len; j++) printf("-");
@@ -233,7 +227,6 @@ int execute_sql(sqlite3 *db, const char *sql)
         printf("\n");
     }
     
-    // Daten ausgeben
     while (sqlite3_step(stmt) == SQLITE_ROW) 
     {
         for (int i = 0; i < cols; i++) {
@@ -300,13 +293,13 @@ int configure_com_port(const char *port, int serial_port)
     cfsetispeed(&tty, B115200);
     cfsetospeed(&tty, B115200);
 
-    // 8N1 Konfiguration
-    tty.c_cflag &= ~PARENB;        // Keine Parität
-    tty.c_cflag &= ~CSTOPB;        // 1 Stopbit
+    //Konfiguration
+    tty.c_cflag &= ~PARENB;        
+    tty.c_cflag &= ~CSTOPB;        
     tty.c_cflag &= ~CSIZE;
-    tty.c_cflag |= CS8;            // 8 Datenbits
-   // tty.c_cflag &= ~CRTSCTS;       // Keine Hardware-Flowcontrol
-    tty.c_cflag |= CREAD | CLOCAL; // Lesen aktivieren & lokaler Modus
+    tty.c_cflag |= CS8;            
+      
+    tty.c_cflag |= CREAD | CLOCAL; 
 
     // Raw-Modus
     tty.c_lflag &= ~(ICANON | ECHO | ECHOE | ISIG);
@@ -314,8 +307,8 @@ int configure_com_port(const char *port, int serial_port)
     tty.c_oflag &= ~OPOST;
 
     // Timeout und minimale Anzahl an Bytes
-    tty.c_cc[VTIME] = 10; // 1s Timeout
-    tty.c_cc[VMIN]  = 10; // mindestens 10 Zeichen
+    tty.c_cc[VTIME] = 10;
+    tty.c_cc[VMIN]  = 10;
 
     // Einstellungen übernehmen
     if (tcsetattr(serial_port, TCSANOW, &tty) != 0) {

@@ -51,11 +51,9 @@ int main(int argc, char *argv[])
             char* tty_path = "/dev/ttyUSB0";
             int serial_fd = connect_to_sensor(tty_path);
         #else
-            int serial_fd = 0;    //wird in der Simulation nicht benoetigt.
+            int serial_fd = 0;    
         #endif
 
-        //Normalerweise wird stdout gepuffert, was bei der seriellen Ausgabe
-        //zu Verzögerungen führen kann. Mit diesem Aufruf wird die Pufferung deaktiviert.
         setvbuf(stdout, NULL, _IONBF, 0);
 
         //Buffer zum Lesen und Verarbeiten von Daten pro Sensor
@@ -63,24 +61,22 @@ int main(int argc, char *argv[])
         char line_buffer[2*READ_CHUNK];
         size_t line_len = 0;
 
-
-        //Datenbank Verbindung öffnen
+        //Datenbank öffnen
         sqlite3 *db;
-
 
         //Modus auswählen
         char modus[100];
-        printf("\nWelchen Modus willst du nutzen[STOP, DA, TEST, AUTO, FILTER, FUN]: " );
+        printf("\nWelchen Modus willst du nutzen:\nSTOP:1 \nDA:2 \nTEST:3 \nAUTO:4 \nFILTER:5 \nFUN:6\n " );
 
         fgets(modus, sizeof(modus), stdin); 
         modus[strcspn(modus, "\n")] = '\0';
 
-        if (strcmp(modus, "STOP") == 0) //Programm beenden
+        if (strcmp(modus, "1") == 0) //STOP
         {
             printf("Programm wird beendet.\n");
             break; 
         }
-        else if (strcmp(modus, "DA") == 0) //Aufgabe 1
+        else if (strcmp(modus, "2") == 0) //Aufgabe 1: DA
         {
 
             if (open_database(&db, "Messung1.db") != 0) 
@@ -98,13 +94,12 @@ int main(int argc, char *argv[])
             double gemessener_abstand[20];
             char eingelesen[100];
 
-            printf("Bitte geben Sie 20 Messwerte in cm ein (nach jedem Wert Enter drücken):\n\n");
+            printf("Geben Sie 20 Messwerte in cm ein:\n\n");
 
 
             int m = 0;
             while (m < 20) 
             {
-                //Wert von der Kommandozeile einlesen
                 printf("Wert %d: ", m + 1);
 
                 if (fgets(eingelesen, sizeof(eingelesen), stdin) == NULL) {
@@ -112,18 +107,16 @@ int main(int argc, char *argv[])
                     return 1;
                 }
 
-                gemessener_abstand[m] = atof(eingelesen);  // Konvertiere String in double
+                gemessener_abstand[m] = atof(eingelesen);  
                
                 float sensorwert = -1.0f; 
-                // 1) Leere seriellen Eingabepuffer, damit keine alten Bytes stören
+                
                 tcflush(serial_fd, TCIFLUSH);
 
-                // 2) Pufferzustand zurücksetzen
                 line_len = 0;
                 line_buffer[0] = '\0';
 
-                // 3) Kleine Wartezeit, damit der Sensor frische Daten erzeugen kann
-                usleep(200000); // 200 ms
+                usleep(200000);
 
                 while (sensorwert < 0) 
                 { 
@@ -131,29 +124,25 @@ int main(int argc, char *argv[])
                 }
 
                 printf("Sensor Value: %.3f cm\n", sensorwert);
-               
-                //Abweichung berechnen
+            
                 double abweichung = gemessener_abstand[m] - sensorwert;
 
                 char temp[256];
 
-                //Werte in die Datenbank einfügen
                 sprintf(temp, "INSERT INTO Messung1 (Abstand_Real, Abstand_Sensor, Abweichung) VALUES (%f,%f,%f);", gemessener_abstand[m], sensorwert, abweichung);
                 execute_sql(db, temp);
                 
                 m++;
             }
 
-            //Tabelle in ein .csv File schreiben
             execute_sql_csv("Messung1.csv",db,
                 "SELECT * FROM Messung1;");
 
         } 
-        else if (strcmp(modus, "TEST") == 0) //Aufgabe 2
+        else if (strcmp(modus, "3") == 0) //Aufgabe 2:LookUpTabelle erstellen
         {
             bool debug = true;
 
-            //LookUp-Tabelle erstellen
             if (open_database(&db, "LookUpTabelle.db") != 0) 
             {
                 return 1;
@@ -168,7 +157,7 @@ int main(int argc, char *argv[])
                 "CREATE TABLE IF NOT EXISTS Messung2 (Messung_Nr INTEGER PRIMARY KEY, Abstand_Sensor DOUBLE, interpolierter_Wert DOUBLE, Abweichung DOUBLE);");
 
             
-            printf("Drücke Enter um die Messung zu starten und q um die Messung abzubrechen...\n"); 
+            printf("Drücke Enter zum Start der Messung und q um die Messung abzubrechen...\n"); 
 
             int m = 1;
             while (1)
@@ -186,34 +175,28 @@ int main(int argc, char *argv[])
                     continue;
                 }
 
-                // Sensorwert messen
                 float sensorwert = -1.0f;
                 
-                // 1) Leere seriellen Eingabepuffer, damit keine alten Bytes stören
                 tcflush(serial_fd, TCIFLUSH);
 
-                // 2) Pufferzustand zurücksetzen
                 line_len = 0;
                 line_buffer[0] = '\0';
 
-                // 3) Kleine Wartezeit, damit der Sensor frische Daten erzeugen kann
-                usleep(200000); // 200 ms
+                usleep(200000); 
                 while (sensorwert < 0)
                     sensorwert = read_sensor_value(serial_fd, chunk, line_buffer, &line_len);
 
                 printf(" %.3f cm\n", sensorwert);
 
-                // Verarbeitung ausgelagert
                 double interpolated_value = Interpolate_measurement(db, sensorwert, debug);
                 if (isnan(interpolated_value)) {
                     printf("Interpolation fehlgeschlagen.\n");
                     continue;
                 }
 
-                // Abweichung
                 double abweichung = interpolated_value - sensorwert;
 
-                // In DB einfügen
+                // In DB 
                 char temp[256];
                 sprintf(temp,
                     "INSERT INTO Messung2 (Abstand_Sensor, interpolierter_Wert, Abweichung) "
@@ -225,14 +208,14 @@ int main(int argc, char *argv[])
                 m++;
             }
 
-            //Tabelle in ein .csv File schreiben
+            //Tabelle in eine .csv Datei
             execute_sql_csv("Messung2.csv",db,
                 "SELECT * FROM Messung2;");
     
         } 
 
 
-        else if (strcmp(modus, "AUTO") == 0) // Aufgabe 3
+        else if (strcmp(modus, "4") == 0) // Aufgabe 3:Auto Messung
         {
             bool debug = false;
             min_dt = 999999.0;
@@ -259,9 +242,9 @@ int main(int argc, char *argv[])
                 "Abstand_Sensor DOUBLE, "
                 "interpolierter_Wert DOUBLE, "
                 "Abweichung DOUBLE, "
-                "ProfilHoehe DOUBLE);"); //Profielhöhe für Entwicklung mechatronischer Systeme
+                "ProfilHoehe DOUBLE);"); 
 
-            printf("Automatische Messung gestartet. Drücke q zum Abbrechen...\n");
+            printf("Auto Messung gestartet. Drücke q zum Abbrechen...\n");
 
             set_input_mode();
             fcntl(STDIN_FILENO, F_SETFL, O_NONBLOCK);
@@ -311,7 +294,6 @@ int main(int argc, char *argv[])
                 // Abweichung
                 double abweichung = interpolated_value - sensorwert;
 
-                //Profilhöhe für Entwicklung mechatronischer Systeme
                 double Hoehe = 12.5;   //abstand Sensor zum Boden des profils
                 if (interpolated_value > Hoehe) 
                 {
@@ -344,7 +326,6 @@ int main(int argc, char *argv[])
 
                 char line[256];
 
-                // Header überspringen
                 fgets(line, sizeof(line), fp);
 
                 // CSV Zeilen einlesen
@@ -360,10 +341,9 @@ int main(int argc, char *argv[])
                         if (length >= MAX_MEASUREMENTS)
                             break;
                         
-                        //int value = (int)round(interpoliert);   //Für Itec
                         if (profilhoehe_csv < 0) 
                             {profilhoehe_csv = 0;}
-                        int value = (int)round(profilhoehe_csv);  //Für Entwicklung mechatronischer Systeme
+                        int value = (int)round(profilhoehe_csv); 
                         if (value < 0) value = 0;
 
                         histogram[length++] = value;
@@ -423,12 +403,12 @@ int main(int argc, char *argv[])
 
 
 
-        else if (strcmp(modus, "FILTER") == 0) //Aufgabe 4
+        else if (strcmp(modus, "5") == 0) //Aufgabe 4
         {
             //Aufgabe 4 programmieren 
            
         } 
-        else if (strcmp(modus, "FUN") == 0) //Aufgabe 5
+        else if (strcmp(modus, "6") == 0) //Aufgabe 5
         {
             //Aufgabe 5 programmieren
             
