@@ -22,5 +22,17 @@
   "command": "/usr/bin/gcc   -g -std=gnu11 -o CMakeFiles/LaborAufgaben-ex.dir/src/automode.c.o -c /home/munck/LaborItecMircoNoah/src/automode.c",
   "file": "/home/munck/LaborItecMircoNoah/src/automode.c",
   "output": "CMakeFiles/LaborAufgaben-ex.dir/src/automode.c.o"
+},
+{
+  "directory": "/home/munck/LaborItecMircoNoah/build",
+  "command": "/usr/bin/gcc   -g -std=gnu11 -o CMakeFiles/LaborAufgaben-ex.dir/src/lookup.c.o -c /home/munck/LaborItecMircoNoah/src/lookup.c",
+  "file": "/home/munck/LaborItecMircoNoah/src/lookup.c",
+  "output": "CMakeFiles/LaborAufgaben-ex.dir/src/lookup.c.o"
+},
+{
+  "directory": "/home/munck/LaborItecMircoNoah/build",
+  "command": "/usr/bin/gcc   -g -std=gnu11 -o CMakeFiles/LaborAufgaben-ex.dir/src/da.c.o -c /home/munck/LaborItecMircoNoah/src/da.c",
+  "file": "/home/munck/LaborItecMircoNoah/src/da.c",
+  "output": "CMakeFiles/LaborAufgaben-ex.dir/src/da.c.o"
 }
 ]

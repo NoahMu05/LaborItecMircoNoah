@@ -125,12 +125,42 @@ CMakeFiles/LaborAufgaben-ex.dir/src/automode.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/LaborAufgaben-ex.dir/src/automode.c.s"
 	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/munck/LaborItecMircoNoah/src/automode.c -o CMakeFiles/LaborAufgaben-ex.dir/src/automode.c.s
 
+CMakeFiles/LaborAufgaben-ex.dir/src/lookup.c.o: CMakeFiles/LaborAufgaben-ex.dir/flags.make
+CMakeFiles/LaborAufgaben-ex.dir/src/lookup.c.o: /home/munck/LaborItecMircoNoah/src/lookup.c
+CMakeFiles/LaborAufgaben-ex.dir/src/lookup.c.o: CMakeFiles/LaborAufgaben-ex.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/munck/LaborItecMircoNoah/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building C object CMakeFiles/LaborAufgaben-ex.dir/src/lookup.c.o"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/LaborAufgaben-ex.dir/src/lookup.c.o -MF CMakeFiles/LaborAufgaben-ex.dir/src/lookup.c.o.d -o CMakeFiles/LaborAufgaben-ex.dir/src/lookup.c.o -c /home/munck/LaborItecMircoNoah/src/lookup.c
+
+CMakeFiles/LaborAufgaben-ex.dir/src/lookup.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/LaborAufgaben-ex.dir/src/lookup.c.i"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/munck/LaborItecMircoNoah/src/lookup.c > CMakeFiles/LaborAufgaben-ex.dir/src/lookup.c.i
+
+CMakeFiles/LaborAufgaben-ex.dir/src/lookup.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/LaborAufgaben-ex.dir/src/lookup.c.s"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/munck/LaborItecMircoNoah/src/lookup.c -o CMakeFiles/LaborAufgaben-ex.dir/src/lookup.c.s
+
+CMakeFiles/LaborAufgaben-ex.dir/src/da.c.o: CMakeFiles/LaborAufgaben-ex.dir/flags.make
+CMakeFiles/LaborAufgaben-ex.dir/src/da.c.o: /home/munck/LaborItecMircoNoah/src/da.c
+CMakeFiles/LaborAufgaben-ex.dir/src/da.c.o: CMakeFiles/LaborAufgaben-ex.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/munck/LaborItecMircoNoah/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building C object CMakeFiles/LaborAufgaben-ex.dir/src/da.c.o"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/LaborAufgaben-ex.dir/src/da.c.o -MF CMakeFiles/LaborAufgaben-ex.dir/src/da.c.o.d -o CMakeFiles/LaborAufgaben-ex.dir/src/da.c.o -c /home/munck/LaborItecMircoNoah/src/da.c
+
+CMakeFiles/LaborAufgaben-ex.dir/src/da.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing C source to CMakeFiles/LaborAufgaben-ex.dir/src/da.c.i"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/munck/LaborItecMircoNoah/src/da.c > CMakeFiles/LaborAufgaben-ex.dir/src/da.c.i
+
+CMakeFiles/LaborAufgaben-ex.dir/src/da.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling C source to assembly CMakeFiles/LaborAufgaben-ex.dir/src/da.c.s"
+	/usr/bin/gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/munck/LaborItecMircoNoah/src/da.c -o CMakeFiles/LaborAufgaben-ex.dir/src/da.c.s
+
 # Object files for target LaborAufgaben-ex
 LaborAufgaben__ex_OBJECTS = \
 "CMakeFiles/LaborAufgaben-ex.dir/src/LaborAufgaben.c.o" \
 "CMakeFiles/LaborAufgaben-ex.dir/src/itec.c.o" \
 "CMakeFiles/LaborAufgaben-ex.dir/src/filter.c.o" \
-"CMakeFiles/LaborAufgaben-ex.dir/src/automode.c.o"
+"CMakeFiles/LaborAufgaben-ex.dir/src/automode.c.o" \
+"CMakeFiles/LaborAufgaben-ex.dir/src/lookup.c.o" \
+"CMakeFiles/LaborAufgaben-ex.dir/src/da.c.o"
 
 # External object files for target LaborAufgaben-ex
 LaborAufgaben__ex_EXTERNAL_OBJECTS =
@@ -139,10 +169,12 @@ LaborAufgaben-ex: CMakeFiles/LaborAufgaben-ex.dir/src/LaborAufgaben.c.o
 LaborAufgaben-ex: CMakeFiles/LaborAufgaben-ex.dir/src/itec.c.o
 LaborAufgaben-ex: CMakeFiles/LaborAufgaben-ex.dir/src/filter.c.o
 LaborAufgaben-ex: CMakeFiles/LaborAufgaben-ex.dir/src/automode.c.o
+LaborAufgaben-ex: CMakeFiles/LaborAufgaben-ex.dir/src/lookup.c.o
+LaborAufgaben-ex: CMakeFiles/LaborAufgaben-ex.dir/src/da.c.o
 LaborAufgaben-ex: CMakeFiles/LaborAufgaben-ex.dir/build.make
 LaborAufgaben-ex: /usr/lib/x86_64-linux-gnu/libsqlite3.so
 LaborAufgaben-ex: CMakeFiles/LaborAufgaben-ex.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/munck/LaborItecMircoNoah/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking C executable LaborAufgaben-ex"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/munck/LaborItecMircoNoah/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking C executable LaborAufgaben-ex"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/LaborAufgaben-ex.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

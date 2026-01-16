@@ -177,6 +177,30 @@ src/automode.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LaborAufgaben-ex.dir/build.make CMakeFiles/LaborAufgaben-ex.dir/src/automode.c.s
 .PHONY : src/automode.c.s
 
+src/da.o: src/da.c.o
+.PHONY : src/da.o
+
+# target to build an object file
+src/da.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LaborAufgaben-ex.dir/build.make CMakeFiles/LaborAufgaben-ex.dir/src/da.c.o
+.PHONY : src/da.c.o
+
+src/da.i: src/da.c.i
+.PHONY : src/da.i
+
+# target to preprocess a source file
+src/da.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LaborAufgaben-ex.dir/build.make CMakeFiles/LaborAufgaben-ex.dir/src/da.c.i
+.PHONY : src/da.c.i
+
+src/da.s: src/da.c.s
+.PHONY : src/da.s
+
+# target to generate assembly for a file
+src/da.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LaborAufgaben-ex.dir/build.make CMakeFiles/LaborAufgaben-ex.dir/src/da.c.s
+.PHONY : src/da.c.s
+
 src/filter.o: src/filter.c.o
 .PHONY : src/filter.o
 
@@ -225,6 +249,30 @@ src/itec.c.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LaborAufgaben-ex.dir/build.make CMakeFiles/LaborAufgaben-ex.dir/src/itec.c.s
 .PHONY : src/itec.c.s
 
+src/lookup.o: src/lookup.c.o
+.PHONY : src/lookup.o
+
+# target to build an object file
+src/lookup.c.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LaborAufgaben-ex.dir/build.make CMakeFiles/LaborAufgaben-ex.dir/src/lookup.c.o
+.PHONY : src/lookup.c.o
+
+src/lookup.i: src/lookup.c.i
+.PHONY : src/lookup.i
+
+# target to preprocess a source file
+src/lookup.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LaborAufgaben-ex.dir/build.make CMakeFiles/LaborAufgaben-ex.dir/src/lookup.c.i
+.PHONY : src/lookup.c.i
+
+src/lookup.s: src/lookup.c.s
+.PHONY : src/lookup.s
+
+# target to generate assembly for a file
+src/lookup.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/LaborAufgaben-ex.dir/build.make CMakeFiles/LaborAufgaben-ex.dir/src/lookup.c.s
+.PHONY : src/lookup.c.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -240,12 +288,18 @@ help:
 	@echo "... src/automode.o"
 	@echo "... src/automode.i"
 	@echo "... src/automode.s"
+	@echo "... src/da.o"
+	@echo "... src/da.i"
+	@echo "... src/da.s"
 	@echo "... src/filter.o"
 	@echo "... src/filter.i"
 	@echo "... src/filter.s"
 	@echo "... src/itec.o"
 	@echo "... src/itec.i"
 	@echo "... src/itec.s"
+	@echo "... src/lookup.o"
+	@echo "... src/lookup.i"
+	@echo "... src/lookup.s"
 .PHONY : help
 
 

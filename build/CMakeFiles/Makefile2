@@ -81,12 +81,12 @@ clean: CMakeFiles/LaborAufgaben-ex.dir/clean
 CMakeFiles/LaborAufgaben-ex.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LaborAufgaben-ex.dir/build.make CMakeFiles/LaborAufgaben-ex.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/LaborAufgaben-ex.dir/build.make CMakeFiles/LaborAufgaben-ex.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/munck/LaborItecMircoNoah/build/CMakeFiles --progress-num=1,2,3,4,5 "Built target LaborAufgaben-ex"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/munck/LaborItecMircoNoah/build/CMakeFiles --progress-num=1,2,3,4,5,6,7 "Built target LaborAufgaben-ex"
 .PHONY : CMakeFiles/LaborAufgaben-ex.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/LaborAufgaben-ex.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/munck/LaborItecMircoNoah/build/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/munck/LaborItecMircoNoah/build/CMakeFiles 7
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/LaborAufgaben-ex.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/munck/LaborItecMircoNoah/build/CMakeFiles 0
 .PHONY : CMakeFiles/LaborAufgaben-ex.dir/rule

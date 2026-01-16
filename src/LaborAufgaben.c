@@ -1,6 +1,8 @@
 #include "itec.h"
 #include "filter.h"
 #include "automode.h"
+#include "lookup.h"
+#include "da.h"
 
 #include <stdio.h>
 #include <sqlite3.h>
@@ -80,8 +82,8 @@ int main(int argc, char *argv[])
         }
         else if (strcmp(modus, "2") == 0) //Aufgabe 1: DA
         {
-
-            if (open_database(&db, "Messung1.db") != 0) 
+            da_run(serial_fd, MAX_MEASUREMENTS, chunk, line_buffer, &line_len);
+           /* if (open_database(&db, "Messung1.db") != 0) 
             {
                 return 1;
             }
@@ -139,10 +141,15 @@ int main(int argc, char *argv[])
 
             execute_sql_csv("Messung1.csv",db,
                 "SELECT * FROM Messung1;");
-
+                     */
         } 
+
         else if (strcmp(modus, "3") == 0) //Aufgabe 2:LookUpTabelle erstellen
         {
+            lookup_run(serial_fd, MAX_MEASUREMENTS, chunk, line_buffer, &line_len);
+
+
+            /*
             bool debug = true;
 
             if (open_database(&db, "LookUpTabelle.db") != 0) 
@@ -212,7 +219,7 @@ int main(int argc, char *argv[])
 
             //Tabelle in eine .csv Datei
             execute_sql_csv("Messung2.csv",db,
-                "SELECT * FROM Messung2;");
+                "SELECT * FROM Messung2;"); */
     
         } 
 
